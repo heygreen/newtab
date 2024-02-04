@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neuer Tab</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="search-container">
+        <input type="text" class="search-input" placeholder="Suche..." id="searchInput"
+            onkeydown="handleSearchInput(event)">
+        <button class="search-button" onclick="performSearch()">Suchen</button>
+    </div>
+    <div class="favorites">
+        <button onclick="openFavorite('https://google.com/')">Website 1</button>
+        <button onclick="openFavorite('https://www.example2.com')">Website 2</button>
+        <!-- Weitere Favoriten hinzufügen -->
+    </div>
+    <div class="settings">
+        <button onclick="openSettings()">Einstellungen</button>
+    </div>
+    <script>
+        function performSearch() {
+            const searchInput = document.getElementById('searchInput').value;
+            const selectedSearchEngine = getSelectedSearchEngine();
+            const searchUrl = constructSearchUrl(selectedSearchEngine, searchInput);
+            window.location.href = searchUrl;
+        }
+
+        function openFavorite(url) {
+            window.open(url, '_blank');
+        }
+
+        function openSettings() {
+            const searchEngineDropdown = document.createElement('select');
+            searchEngineDropdown.innerHTML = `
+                <option value="google">Google</option>
+                <option value="bing">Bing</option>
+                <option value="qwant">Qwant</option>
+                <option value="ecosia">Ecosia</option>
+                <option value="brave">Brave Search</option>
+            `;
+            const selectedSearchEngine = getSelectedSearchEngine();
+            searchEngineDropdown.value = selectedSearchEngine;
+            searchEngineDropdown.addEventListener('change', () => {
+                saveSelectedSearchEngine(searchEngineDropdown.value);
+            });
+            document.querySelector('.settings').appendChild(searchEngineDropdown);
+
+            // Add background settings button
+            const backgroundButton = document.createElement('button');
+            backgroundButton.innerText = 'Hintergrund ändern';
+            backgroundButton.onclick = openBackgroundSettings;
+            document.querySelector('.settings').appendChild(backgroundButton);
+        }
+
+        function openBackgroundSettings() {
+            const backgroundChoice = prompt('Bitte gib die URL des Hintergrundbilds ein oder eine Farbe (z. B. #f0f0f0):');
+            if (backgroundChoice) {
+                document.body.style.backgroundImage = `url('${backgroundChoice}')`;
+                localStorage.setItem('backgroundChoice', backgroundChoice);
+            }
+        }
+
+        function getSelectedSearchEngine() {
+            const storedSearchEngine = localStorage.getItem('selectedSearchEngine');
+            return storedSearchEngine || 'qwant';
+        }
+
+        function saveSelectedSearchEngine(searchEngine) {
+            localStorage.setItem('selectedSearchEngine', searchEngine);
+        }
+
+        function constructSearchUrl(searchEngine, query) {
+            switch (searchEngine) {
+                case 'qwant':
+                    return `https://www.qwant.com/?q=${encodeURIComponent(query)}`;
+                case 'bing':
+                    return `https://www.bing.com/search?q=${encodeURIComponent(query)}`;
+                case 'ecosia':
+                    return `https://www.ecosia.org/search?q=${encodeURIComponent(query)}`;
+                case 'google':
+                    return `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+                case 'brave':
+                    return `https://search.brave.com/search?q=${encodeURIComponent(query)}`;
+                default:
+                    return ''; // Behandele den Standardfall
+            }
+        }
+
+        function handleSearchInput(event) {
+            if (event.key === 'Enter') {
+                performSearch();
+            }
+        }
+
+        // Set background from LocalStorage
+        const storedBackgroundChoice = localStorage.getItem('backgroundChoice');
+        if (storedBackgroundChoice) {
+            document.body.style.backgroundImage = `url('${storedBackgroundChoice}')`;
+        }
+    </script>
+</body>
+
+</html>
