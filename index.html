@@ -55,13 +55,27 @@
             backgroundButton.innerText = 'Hintergrund ändern';
             backgroundButton.onclick = openBackgroundSettings;
             document.querySelector('.settings').appendChild(backgroundButton);
+
+            // Add background settings button
+            const themeButton = document.createElement('button');
+            themeButton.innerText = 'Theme ändern';
+            themeButton.onclick = openThemeSettings;
+            document.querySelector('.settings').appendChild(themeButton);
         }
 
         function openBackgroundSettings() {
-            const backgroundChoice = prompt('Bitte gib die URL des Hintergrundbilds ein oder eine Farbe (z. B. #f0f0f0):');
+            const backgroundChoice = prompt('Bitte gib die URL des Hintergrundbilds ein.');
             if (backgroundChoice) {
                 document.body.style.backgroundImage = `url('${backgroundChoice}')`;
                 localStorage.setItem('backgroundChoice', backgroundChoice);
+            }
+        }
+
+        function openThemeSettings() {
+            const themeChoice = prompt('Bitte gib die gewünschte Theme Farbe ein (z.B. #f0f0f0)');
+            if (themeChoice) {
+                document.documentElement.setAttribute("style", `--primary: ${themeChoice}`);
+                localStorage.setItem('themeChoice', themeChoice);
             }
         }
 
@@ -101,6 +115,11 @@
         const storedBackgroundChoice = localStorage.getItem('backgroundChoice');
         if (storedBackgroundChoice) {
             document.body.style.backgroundImage = `url('${storedBackgroundChoice}')`;
+        }
+
+        const storedThemeChoice = localStorage.getItem('themeChoice');
+        if (storedThemeChoice) {
+            document.documentElement.setAttribute("style", `--primary: ${storedThemeChoice}`);
         }
     </script>
 </body>
