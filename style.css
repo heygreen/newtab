@@ -1,5 +1,10 @@
-:root{
+:root {
     --primary: #527af3;
+}
+
+html{
+    margin: 0;
+    height: 100%;
 }
 
 body {
@@ -7,9 +12,13 @@ body {
     padding: 0;
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
-    background-image: url(''); /* Hintergrundbild hier einfügen */
+    background-image: url('');
     background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top center;
+    height: 100%;
 }
+
 .search-container {
     position: absolute;
     top: 50%;
@@ -24,6 +33,7 @@ body {
     align-items: center;
     padding: 10px;
 }
+
 .search-input {
     flex: 1;
     border: none;
@@ -31,6 +41,7 @@ body {
     padding: 8px;
     font-size: 16px;
 }
+
 .search-button {
     background-color: var(--primary);
     color: #fff;
@@ -41,12 +52,15 @@ body {
     cursor: pointer;
     margin-left: 10px;
 }
+
 .favorites {
     position: absolute;
-    top: calc(50% + 40px); /* Direkt unter der Suchleiste */
+    top: calc(50% + 40px);
+    /* Direkt unter der Suchleiste */
     left: 50%;
     transform: translateX(-50%);
 }
+
 .favorites button {
     background-color: var(--primary);
     color: #fff;
@@ -57,11 +71,13 @@ body {
     cursor: pointer;
     margin-right: 10px;
 }
+
 .settings {
     position: absolute;
     bottom: 20px;
     left: 20px;
 }
+
 .settings button {
     background-color: var(--primary);
     color: #fff;
